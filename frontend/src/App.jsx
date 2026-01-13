@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import React from "react";
 import { setNavigate } from "./auth/navigation";
 import "./index.css";
 import MainLayout from "./layouts/MainLayout";
@@ -16,7 +17,13 @@ import ReportsPage from "./pages/Report/ReportsPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyEmail from "./pages/VerifyEmai/VerifyEmail";
+import Home from "../Home/pages/Home/Home";
+import LandingLayout from "../Home/Layout/Landinglayout"; 
+import FeaturesPage from "../Home/pages/Features/FeaturesPage";
+import Plans from "../Home/pages/Plans/Plans";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+
 function App() {
   const navigate = useNavigate();
 
@@ -27,7 +34,12 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route element={<LandingLayout />}>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/plans" element={<Plans />} />
+        <Route path="/home" element={<Home />} />
+        </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify-email" element={<VerifyEmail />} />

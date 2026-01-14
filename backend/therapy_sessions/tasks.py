@@ -130,6 +130,19 @@ def transcribe_session(self, session_id: int):
                 )
             raise
         raise self.retry(exc=e)
+    finally:
+        try:
+            if audio_path and os.path.exists(audio_path):
+                os.remove(audio_path)
+        except Exception:
+            pass
+
+    finally:
+        try:
+            if audio_path and os.path.exists(audio_path):
+                os.remove(audio_path)
+        except Exception:
+            pass
 
     finally:
         try:
@@ -167,6 +180,7 @@ def generate_session_report(self, session_id: int):
 
 
     try:
+        # Your service should read transcript from DB (not audio path)
         report = ReportService.generate_for_session(session_id)
 
         if report.status != "completed":

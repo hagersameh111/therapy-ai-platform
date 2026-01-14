@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import TherapistProfile, EmailVerification
 from .serializers import RegisterSerializer, TherapistProfileUpdateSerializer, UserPublicSerializer, TherapistProfileSerializer
 from django.contrib.auth import get_user_model
+from users.throttles import AuthRateThrottle
 from django.utils import timezone
 from datetime import timedelta
 from .tasks import send_verification_email
@@ -20,6 +21,7 @@ User = get_user_model()
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [AuthRateThrottle]
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -110,6 +112,7 @@ class TherapistProfileView(APIView):
 # =========================
 class VerifyEmailView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [AuthRateThrottle]
 
     def post(self, request):
         token = request.data.get("token")
